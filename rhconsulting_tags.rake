@@ -27,9 +27,9 @@ class TagImportExport
       File.write(filename, Classification.export_to_yaml)
     elsif file_type == 'directory'
       Classification.find_all_by_parent_id("0").each do |category|
-        # Skip exporting the User roles classification
-        #   as the classification does not show in the Web UI
-        next if category.description == 'User roles'
+        # Skip exporting classifications where
+        #   the classification does not show in the Web UI
+        next if ['folder_path_blue', 'folder_path_yellow', 'role'].include?(c['name'])
 
         # Get the description to use in the filename
         description = "#{category.description}"
