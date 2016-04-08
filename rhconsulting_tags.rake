@@ -29,7 +29,7 @@ class TagImportExport
       Classification.find_all_by_parent_id("0").each do |category|
         # Skip exporting classifications where
         #   the classification does not show in the Web UI
-        next if ['folder_path_blue', 'folder_path_yellow', 'role'].include?(c['name'])
+        next if ['folder_path_blue', 'folder_path_yellow', 'role'].include?(category.name)
 
         # Get the description to use in the filename
         description = "#{category.description}"
