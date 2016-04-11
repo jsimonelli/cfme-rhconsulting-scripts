@@ -116,7 +116,7 @@ bin/rake rhconsulting:roles:export[${BUILDDIR}/roles/roles.yml]
 bin/rake rhconsulting:tags:export[${BUILDDIR}/tags/tags.yml]
 bin/rake rhconsulting:buttons:export[${BUILDDIR}/buttons/buttons.yml]
 bin/rake rhconsulting:customization_templates:export[${BUILDDIR}/customization_templates/customization_templates.yml]
-bin/rake rhconsulting:miq_policies:export[${BUILDDIR/policies]
+bin/rake rhconsulting:miq_policies:export[${BUILDDIR}/policies]
 bin/rake "rhconsulting:miq_ae_datastore:export[${DOMAIN_EXPORT}, ${BUILDDIR}/miq_ae_datastore]"
 ----
 
