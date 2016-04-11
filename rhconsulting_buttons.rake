@@ -145,6 +145,7 @@ class ButtonsImportExport
         custom_button['visibility'] = cb['visibility']
         custom_button['applies_to_id'] = cb['applies_to_id']
         #custom_button['resource_actions'] = cb['resource_actions']
+        custom_button.resource_action = cb['resource_actions']
         custom_button.update_attributes!(cb) unless !custom_button.nil?
         # puts "Updated custom button [#{cb['name']}]"
         # puts custom_button.inspect
