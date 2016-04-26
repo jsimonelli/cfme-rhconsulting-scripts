@@ -1,5 +1,5 @@
 Name:      cfme-rhconsulting-scripts
-Version:   0.3
+Version:   0.4
 Release:   2
 Summary:   Red Hat Consulting Scripts for CloudForms
 
@@ -25,6 +25,7 @@ cd %{_builddir}/%{name}
 install --backup --mode=0644 -t "%{buildroot}/var/www/miq/vmdb/lib/tasks/$f" *.rake
 install --backup --mode=0755 -t "%{buildroot}/usr/bin" bin/miqexport
 install --backup --mode=0755 -t "%{buildroot}/usr/bin" bin/miqimport
+install --backup --mode-0755 -t "%{buildroot}/usr/bin" bin/export-miqdomain
 
 %files
 /var/www/miq/vmdb/lib/tasks/rhconsulting_buttons.rake
@@ -38,10 +39,14 @@ install --backup --mode=0755 -t "%{buildroot}/usr/bin" bin/miqimport
 /var/www/miq/vmdb/lib/tasks/rhconsulting_policies.rake
 /usr/bin/miqexport
 /usr/bin/miqimport
+/usr/bin/export-miqdomain
 
 %post
 
 %changelog
+* Tue Apr 26 2015 Kumar Jadav <kumar.jadav@redhat.com> 0.4
+- Added the export-miqdomain file.
+
 * Mon Dec 21 2015 George Goh <george.goh@redhat.com> 0.3-2
 - Fix wrong test in miqimport for the existence of files.
 
