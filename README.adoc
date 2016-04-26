@@ -102,6 +102,19 @@ miqimport dialogs /tmp/dialogs
 ----
 
 == Export examples using rake
+* You can do the export by using the `export-miqdomain` script or manually as well.
+----
+export-domain 
+Usage: ./export-domain -d CloudFormsDomain -D /path/to/the/directory
+
+OPTIONS:
+  -d    CloudForms Domain
+  -D    Path to the directory
+  -h    Displays help
+----
+
+* To do the export manually follow the below steps.
+
 ----
 BUILDDIR=/tmp/CFME-build
 DOMAIN_EXPORT=YourDomainHere
@@ -116,7 +129,7 @@ bin/rake rhconsulting:roles:export[${BUILDDIR}/roles/roles.yml]
 bin/rake rhconsulting:tags:export[${BUILDDIR}/tags/tags.yml]
 bin/rake rhconsulting:buttons:export[${BUILDDIR}/buttons/buttons.yml]
 bin/rake rhconsulting:customization_templates:export[${BUILDDIR}/customization_templates/customization_templates.yml]
-bin/rake rhconsulting:miq_policies:export[${BUILDDIR/policies]
+bin/rake rhconsulting:miq_policies:export[${BUILDDIR}/policies]
 bin/rake "rhconsulting:miq_ae_datastore:export[${DOMAIN_EXPORT}, ${BUILDDIR}/miq_ae_datastore]"
 ----
 
