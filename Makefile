@@ -1,4 +1,4 @@
-VERSION := 0.3
+VERSION := 0.4
 RELEASE := 2
 
 .PHONY: clean rpm install clean-install
@@ -15,6 +15,7 @@ rm-installed-files:
 	rm -f /var/www/miq/vmdb/lib/tasks/rhconsulting_policies.rake
 	rm -f /usr/bin/miqexport
 	rm -f /usr/bin/miqimport
+	rm -f /usr/bin/export-miqdomain
 
 install:
 	install -Dm644 rhconsulting_buttons.rake /var/www/miq/vmdb/lib/tasks/rhconsulting_buttons.rake
@@ -28,6 +29,7 @@ install:
 	install -Dm644 rhconsulting_policies.rake /var/www/miq/vmdb/lib/tasks/rhconsulting_policies.rake
 	install -Dm755 bin/miqexport /usr/bin/miqexport
 	install -Dm755 bin/miqimport /usr/bin/miqimport
+	install -Dm755 bin/export-miqdomain /usr/bin/export-miqdomain
 
 clean-install: rm-installed-files install
 
