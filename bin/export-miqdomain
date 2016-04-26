@@ -1,0 +1,95 @@
+#!/bin/bash
+
+# Red Hat Consulting
+# BASH script to export CloudForms domain to a directory
+
+# Version 1.0 - 2016-04-26
+
+usage()
+{
+cat << EOF
+Usage: $0 -d CloudFormsDomain -D /path/to/the/directory
+
+OPTIONS:
+  -d    CloudForms Domain
+  -D    Path to the directory
+  -h    Displays help
+
+EOF
+}
+
+check_root()
+{
+  if [[ ${EUID} != 0 ]]; then
+    echo "Error: Run the $0 as 'root'." >&2
+    exit 1
+  fi
+}
+
+export ()
+{
+  mkdir -p ${BUILDDIR}/{service_catalogs,dialogs,roles,tags,buttons,customization_templates,policies,miq_ae_datastore}
+
+  cd /var/www/miq/vmdb
+  bin/rake rhconsulting:service_dialogs:export[${BUILDDIR}/dialogs]
+  bin/rake rhconsulting:service_catalogs:export[${BUILDDIR}/service_catalogs]
+  bin/rake rhconsulting:roles:export[${BUILDDIR}/roles/roles.yml]
+  bin/rake rhconsulting:tags:export[${BUILDDIR}/tags/tags.yml]
+  bin/rake rhconsulting:buttons:export[${BUILDDIR}/buttons/buttons.yml]
+  bin/rake rhconsulting:customization_templates:export[${BUILDDIR}/customization_templates/customization_templates.yml]
+  bin/rake rhconsulting:miq_policies:export[${BUILDDIR}/policies]
+  bin/rake "rhconsulting:miq_ae_datastore:export[${DOMAIN}, ${BUILDDIR}/miq_ae_datastore]"
+}
+
+
+## Main
+# Read command line arguments
+while getopts "d:,D:,:h" opts; do
+  case $opts in
+    h)
+      usage
+      exit 1
+      ;;
+    d)
+      DOMAIN=${OPTARG}
+      ;;
+    D)
+      BUILDDIR=${OPTARG}
+      ;;
+    \?)
+      echo "Invalid option -$OPTARG" >&2
+      exit 1
+      ;;
+    :)
+      echo "Options -$OPTARG requires an argument." >&2
+      exit 1
+      ;;
+    *)
+      ;;
+  esac
+done
+
+if [[ -z ${DOMAIN} ]] || [[ -z ${BUILDDIR} ]]; then
+  usage
+  exit 1
+fi
+
+# Check for the user 'root'
+check_root
+
+# Confirm before proceeding and then run the export.
+echo "The domain is ${DOMAIN}"
+echo "The directory is ${BUILDDIR}"
+read -r -p "Do you want to continue? [Y/n] " response
+response=${response,}
+
+if [[ $response =~ ^(yes|y) ]]; then
+  echo "Starting export, please wait..."
+  # Start the export
+  export
+else
+  echo "You have decided not to continue."
+  echo "Exiting."
+  exit 1
+fi
+
