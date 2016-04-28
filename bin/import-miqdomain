@@ -1,0 +1,124 @@
+#!/bin/bash
+
+# Red Hat Consulting
+# BASH script to import CloudForms domain to a directory
+
+# Version 1.0 - 2016-04-27
+
+usage()
+{
+cat << EOF
+Usage: $0 -D /absolute/path/to/the/directory
+
+OPTIONS:
+  -D    Path to the directory
+  -h    Displays help
+
+EOF
+}
+
+absolute_path()
+{
+  if [[ "${DIR:0:1}" != "/" ]]; then
+    echo "Error: The path to the directory needs to be Absolute Path."
+    exit 1
+  fi
+}
+
+
+check_root()
+{
+  if [[ ${EUID} != 0 ]]; then
+    echo "Error: Run the $0 as 'root'." >&2
+    exit 1
+  fi
+}
+
+check_directory()
+{
+  if [[ ! -d ${DIR} ]]; then
+    echo "Error: The directory does not exist." >&2
+    exit 1
+  fi
+}
+
+
+domain_name()
+{
+  DIRECTORY=`find ${DIR}/miq_ae_datastore/ -maxdepth 1 -type d | tail -1`
+  DOMAIN=`basename ${DIRECTORY}`
+  echo "Domain name to be imported is ${DOMAIN}"
+}
+
+import()
+{
+  cd /var/www/miq/vmdb
+  bin/rake rhconsulting:service_dialogs:import[${DIR}/service_dialogs]
+  bin/rake rhconsulting:roles:import[${DIR}/roles/roles.yml]
+  bin/rake rhconsulting:tags:import[${DIR}/tags/tags.yml]
+  bin/rake rhconsulting:buttons:import[${DIR}/buttons/buttons.yml]
+  bin/rake rhconsulting:customization_templates:import[${DIR}/customization_templates/customization_templates.yml]
+  bin/rake rhconsulting:miq_policies:import[${DIR}/policies]
+  bin/rake rhconsulting:service_catalogs:import[${DIR}/service_catalogs]
+  bin/rake rhconsulting:miq_reports:import[${DIR}/reports]
+  bin/rake "rhconsulting:miq_ae_datastore:import[${DOMAIN}, ${DIR}/miq_ae_datastore]"
+  bin/rake rhconsulting:service_catalogs:import[${DIR}/service_catalogs]
+}
+
+
+## Main
+# Read command line arguments
+while getopts "D:,:h" opts; do
+  case $opts in
+    h)
+      usage
+      exit 1
+      ;;
+    D)
+      DIR=${OPTARG}
+      ;;
+    \?)
+      echo "Invalid option -$OPTARG" >&2
+      exit 1
+      ;;
+    :)
+      echo "Options -$OPTARG requires an argument." >&2
+      exit 1
+      ;;
+    *)
+      ;;
+  esac
+done
+
+if [[ -z ${DIR} ]]; then
+  usage
+  exit 1
+fi
+
+# Check for the user 'root'
+check_root
+
+# Check for directory
+check_directory
+
+# Check for absolute path
+absolute_path
+
+# Get the domain name
+domain_name
+
+# Confirm before proceeding and then run the import.
+echo "The directory you specified is ${DIR}"
+read -r -p "Do you want to continue? [Y/n] " response
+response=${response,}
+
+if [[ $response =~ ^(yes|y) ]]; then
+  echo "Starting import, please wait..."
+  # Start the import
+  import
+else
+  echo "You have decided not to continue."
+  echo "Exiting."
+  exit 1
+fi
+
