@@ -113,7 +113,7 @@ OPTIONS:
   -h    Displays help
 ----
 
-* To do the export manually follow the below steps.
+* To do the export manually, follow the below steps.
 
 ----
 BUILDDIR=/tmp/CFME-build
@@ -134,6 +134,21 @@ bin/rake "rhconsulting:miq_ae_datastore:export[${DOMAIN_EXPORT}, ${BUILDDIR}/miq
 ----
 
 == Import examples using rake
+
+* You can do the import by using the `import-miqdomain` script or manually as well. 
+
+----
+import-miqdomain 
+Usage: ./import-miqdomain -D /absolute/path/to/the/directory
+
+OPTIONS:
+  -D    Path to the directory
+  -h    Displays help
+
+----
+
+* To do the import manually, follow the below steps.
+
 ----
 BUILDDIR=/tmp/CFME-build
 DOMAIN_IMPORT=YourDomainHere
