@@ -93,7 +93,7 @@ namespace :rhconsulting do
     desc 'Usage information'
     task :usage => [:environment] do
       puts 'Export - Usage: rake rhconsulting:tags:export[/path/to/export]'
-      puts 'Import - Usage: rake rhconsulting:tags:import[/path/to/export]'
+      puts 'Import - Usage: rake rhconsulting:tags:import[/path/to/import]'
     end
 
     desc 'Import all tags from a YAML file'

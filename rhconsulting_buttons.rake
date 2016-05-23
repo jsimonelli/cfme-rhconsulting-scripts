@@ -253,7 +253,7 @@ namespace :rhconsulting do
     desc 'Usage information'
     task :usage => [:environment] do
       puts 'Export - Usage: rake rhconsulting:buttons:export[/path/to/export]'
-      puts 'Import - Usage: rake rhconsulting:buttons:import[/path/to/export]'
+      puts 'Import - Usage: rake rhconsulting:buttons:import[/path/to/import]'
     end
 
     desc 'Import all dialogs from a YAML file'

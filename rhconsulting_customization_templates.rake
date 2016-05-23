@@ -84,7 +84,7 @@ namespace :rhconsulting do
     desc 'Usage information'
     task :usage => [:environment] do
       puts 'Export - Usage: rake rhconsulting:customization_templates:export[/path/to/export]'
-      puts 'Import - Usage: rake rhconsulting:customization_templates:import[/path/to/export]'
+      puts 'Import - Usage: rake rhconsulting:customization_templates:import[/path/to/import]'
     end
 
     desc 'Import all customization templates from a YAML file or directory'
