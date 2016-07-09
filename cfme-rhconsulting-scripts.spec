@@ -50,10 +50,10 @@ install --backup --mode=0755 -t "%{buildroot}/usr/bin" bin/import-miqdomain
 * Fri Jul 08 2016 Brant Evans <bevans@redhat.com> 0.6
 - Added export/import for widgets
 
-* Thu Apr 28 2015 Kumar Jadav <kumar.jadav@redhat.com> 0.5
+* Thu Apr 28 2016 Kumar Jadav <kumar.jadav@redhat.com> 0.5
 - Added the import-miqdomain file.
 
-* Tue Apr 26 2015 Kumar Jadav <kumar.jadav@redhat.com> 0.4
+* Tue Apr 26 2016 Kumar Jadav <kumar.jadav@redhat.com> 0.4
 - Added the export-miqdomain file.
 
 * Mon Dec 21 2015 George Goh <george.goh@redhat.com> 0.3-2
