@@ -61,6 +61,7 @@ import()
   bin/rake rhconsulting:miq_policies:import[${DIR}/policies]
   bin/rake rhconsulting:service_catalogs:import[${DIR}/service_catalogs]
   bin/rake rhconsulting:miq_reports:import[${DIR}/reports]
+  bin/rake rhconsulting:miq_widgets:import[${DIR}/widgets]
   bin/rake "rhconsulting:miq_ae_datastore:import[${DOMAIN}, ${DIR}/miq_ae_datastore]"
   bin/rake rhconsulting:service_catalogs:import[${DIR}/service_catalogs]
 }

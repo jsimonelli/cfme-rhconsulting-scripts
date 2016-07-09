@@ -28,7 +28,7 @@ check_root()
 
 export ()
 {
-  mkdir -p ${BUILDDIR}/{service_catalogs,service_dialogs,roles,tags,buttons,customization_templates,reports,policies,miq_ae_datastore}
+  mkdir -p ${BUILDDIR}/{service_catalogs,service_dialogs,roles,tags,buttons,customization_templates,reports,widgets,policies,miq_ae_datastore}
 
   cd /var/www/miq/vmdb
   bin/rake rhconsulting:service_dialogs:export[${BUILDDIR}/service_dialogs]
@@ -37,6 +37,7 @@ export ()
   bin/rake rhconsulting:tags:export[${BUILDDIR}/tags/tags.yml]
   bin/rake rhconsulting:buttons:export[${BUILDDIR}/buttons/buttons.yml]
   bin/rake rhconsulting:miq_reports:export[${BUILDDIR}/reports]
+  bin/rake rhconsulting:miq_widgets:export[${BUILDDIR}/widgets]
   bin/rake rhconsulting:customization_templates:export[${BUILDDIR}/customization_templates/customization_templates.yml]
   bin/rake rhconsulting:miq_policies:export[${BUILDDIR}/policies]
   bin/rake "rhconsulting:miq_ae_datastore:export[${DOMAIN}, ${BUILDDIR}/miq_ae_datastore]"

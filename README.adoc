@@ -6,6 +6,8 @@ These scripts are useful to import/export specific items
 This can cause issues if you have two rake files with the same task names. For example, make sure there are not two instances of the dialogs:export. Even if you specify the namespace
 rake might choose the wrong task to run**
 
+IMPORTANT: Exporting and importing of widgets requires CloudForms 4.1 or ManageIQ Darga or greater releases.
+
 == Install
 
 Option 1) use make commands    
@@ -53,6 +55,7 @@ Available Object Types:
   buttons                          Export buttons.
   customization_templates          Export customization templates.
   reports                          Export custom reports.
+  widgets                          Export custom widgets.
   policies                         Export policies.
   domain <name>                    Export the specified domain from the
                                    Automate Engine Datastore. <name> MUST
@@ -86,6 +89,7 @@ Available Object Types:
   buttons                          Import buttons.
   customization_templates          Import customization templates.
   reports                          Import custom reports.
+  widgets                          Import custom widgets.
   policies                         Import policies.
   domain <name>                    Import the specified domain from the
                                    <importsource> directory. <name> MUST
@@ -120,7 +124,7 @@ BUILDDIR=/tmp/CFME-build
 DOMAIN_EXPORT=YourDomainHere
 
 rm -fR ${BUILDDIR}
-mkdir -p ${BUILDDIR}/{service_catalogs,dialogs,roles,tags,buttons,customization_templates,policies,miq_ae_datastore}
+mkdir -p ${BUILDDIR}/{service_catalogs,dialogs,roles,tags,buttons,customization_templates,policies,widgets,miq_ae_datastore}
 
 cd /var/www/miq/vmdb
 bin/rake rhconsulting:service_dialogs:export[${BUILDDIR}/dialogs]
@@ -130,6 +134,7 @@ bin/rake rhconsulting:tags:export[${BUILDDIR}/tags/tags.yml]
 bin/rake rhconsulting:buttons:export[${BUILDDIR}/buttons/buttons.yml]
 bin/rake rhconsulting:customization_templates:export[${BUILDDIR}/customization_templates/customization_templates.yml]
 bin/rake rhconsulting:miq_policies:export[${BUILDDIR}/policies]
+bin/rake rhconsulting:miq_widgets:export[${BUILDDIR}/widgets]
 bin/rake "rhconsulting:miq_ae_datastore:export[${DOMAIN_EXPORT}, ${BUILDDIR}/miq_ae_datastore]"
 ----
 
@@ -160,6 +165,7 @@ bin/rake rhconsulting:tags:import[${BUILDDIR}/tags/tags.yml]
 bin/rake rhconsulting:buttons:import[${BUILDDIR}/buttons/buttons.yml]
 bin/rake rhconsulting:customization_templates:import[${BUILDDIR}/customization_templates/customization_templates.yml]
 bin/rake rhconsulting:miq_policies:import[${BUILDDIR}/policies]
+bin/rake rhconsulting:miq_widgets:import[${BUILDDIR}/widgets]
 bin/rake rhconsulting:service_catalogs:import[${BUILDDIR}/service_catalogs]
 bin/rake "rhconsulting:miq_ae_datastore:import[${DOMAIN_IMPORT}, ${BUILDDIR}/miq_ae_datastore]"
 bin/rake rhconsulting:service_catalogs:import[${BUILDDIR}/service_catalogs]
