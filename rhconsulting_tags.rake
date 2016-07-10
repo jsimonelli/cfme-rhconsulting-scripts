@@ -1,6 +1,8 @@
 class TagImportExport
   class ParsedNonClassificationYamlError < StandardError; end
 
+  SPECIAL_TAGS = ['folder_path_blue', 'folder_path_yellow', 'role']
+
   def import(filename)
     raise "Must supply filename or directory" if filename.blank?
     if File.file?(filename)
@@ -27,9 +29,9 @@ class TagImportExport
       File.write(filename, Classification.export_to_yaml)
     elsif file_type == 'directory'
       Classification.find_all_by_parent_id("0").each do |category|
-        # Skip exporting the User roles classification
-        #   as the classification does not show in the Web UI
-        next if category.description == 'User roles'
+        # Skip exporting classifications where
+        #   the classification does not show in the Web UI
+        next if SPECIAL_TAGS.include?(category.name)
 
         # Get the description to use in the filename
         description = "#{category.description}"
@@ -70,7 +72,7 @@ private
   def import_classifications(classifications)
     begin
       classifications.each do |c|
-        next if ['folder_path_blue', 'folder_path_yellow'].include?(c['name'])
+        next if SPECIAL_TAGS.include?(c['name'])
         #puts "Classification: [#{c['name']}]"
         classification = Classification.find_by_name(c['name'])
         entries = c.delete("entries")
