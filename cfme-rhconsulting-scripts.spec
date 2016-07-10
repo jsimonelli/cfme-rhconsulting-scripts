@@ -1,6 +1,6 @@
 Name:      cfme-rhconsulting-scripts
-Version:   0.5
-Release:   2
+Version:   0.6
+Release:   1
 Summary:   Red Hat Consulting Scripts for CloudForms
 
 Group:     Applications/System
@@ -37,6 +37,7 @@ install --backup --mode=0755 -t "%{buildroot}/usr/bin" bin/import-miqdomain
 /var/www/miq/vmdb/lib/tasks/rhconsulting_dialogs.rake
 /var/www/miq/vmdb/lib/tasks/rhconsulting_service_catalogs.rake
 /var/www/miq/vmdb/lib/tasks/rhconsulting_reports.rake
+/var/www/miq/vmdb/lib/tasks/rhconsulting_widgets.rake
 /var/www/miq/vmdb/lib/tasks/rhconsulting_policies.rake
 /usr/bin/miqexport
 /usr/bin/miqimport
@@ -46,10 +47,13 @@ install --backup --mode=0755 -t "%{buildroot}/usr/bin" bin/import-miqdomain
 %post
 
 %changelog
-* Thu Apr 28 2015 Kumar Jadav <kumar.jadav@redhat.com> 0.5
+* Fri Jul 08 2016 Brant Evans <bevans@redhat.com> 0.6
+- Added export/import for widgets
+
+* Thu Apr 28 2016 Kumar Jadav <kumar.jadav@redhat.com> 0.5
 - Added the import-miqdomain file.
 
-* Tue Apr 26 2015 Kumar Jadav <kumar.jadav@redhat.com> 0.4
+* Tue Apr 26 2016 Kumar Jadav <kumar.jadav@redhat.com> 0.4
 - Added the export-miqdomain file.
 
 * Mon Dec 21 2015 George Goh <george.goh@redhat.com> 0.3-2
