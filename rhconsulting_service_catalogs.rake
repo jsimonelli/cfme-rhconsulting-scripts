@@ -50,7 +50,7 @@ private
   def import_service_template_catalogs(catalogs)
     catalogs.each do |c|
       puts "Service Catalog: [#{c['name']}]"
-      catalog = ServiceTemplateCatalog.in_region(MiqRegion.my_region_number).find_or_create_by_name(c['name'])
+      catalog = ServiceTemplateCatalog.in_region(MiqRegion.my_region_number).find_or_create_by(name: c['name'])
       catalog.update_attributes!(c)
     end
   end
@@ -58,7 +58,7 @@ private
   def import_service_templates(templates)
     templates.sort_by { |t| t['service_type'] == 'composite' ? 1 : 0 }.each do |t|
       puts "Catalog Item: [#{t['name']}]"
-      template = ServiceTemplate.in_region(MiqRegion.my_region_number).find_or_create_by_name(t['name'])
+      template = ServiceTemplate.in_region(MiqRegion.my_region_number).find_or_create_by(name: t['name'])
       template.update_attributes!(t.slice(
         'description', 'type', 'display', 'service_type',
         'prov_type', 'provision_cost', 'long_description'))
