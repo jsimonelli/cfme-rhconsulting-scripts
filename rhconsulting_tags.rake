@@ -28,7 +28,7 @@ class TagImportExport
     if file_type == 'file'
       File.write(filename, Classification.export_to_yaml)
     elsif file_type == 'directory'
-      Classification.find_all_by_parent_id("0").each do |category|
+      Classification.where(:parent_id => "0").each do |category|
         # Skip exporting classifications where
         #   the classification does not show in the Web UI
         next if SPECIAL_TAGS.include?(category.name)
