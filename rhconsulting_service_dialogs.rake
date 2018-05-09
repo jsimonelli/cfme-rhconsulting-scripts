@@ -71,6 +71,21 @@ class ServiceDialogImportExport
   def import_dialog_fields(dialog_group)
     dialog_group["dialog_fields"].collect do |dialog_field|
 
+      # Change options[:category_id] if category_description was included in the export for tag fields
+      if dialog_field['type'] == "DialogFieldTagControl"
+        unless dialog_field['options'][:category_description].blank?
+          c = Classification.find_by_description(dialog_field['options'][:category_description])
+          if c.nil?
+            raise "Classification '#{dialog_field['options'][:category_description]}' not found for field '#{dialog_field['name']}'"
+          end
+          unless dialog_field['options'][:category_id] == c.id.to_s
+            dialog_field['options'][:category_id] = c.id.to_s
+            puts "  Updating Field '#{dialog_field['name']}' -> category_id '#{c.id}' for classification '#{dialog_field['options'][:category_description]}'"
+          end
+          dialog_field['options'].delete(:category_description)
+        end
+      end
+
       # Allow for importing the old format or the new format
       # This will allow for compatibility of exports in both formats
       df = dialog_field['type'].constantize.create(dialog_field.reject { |a| ['resource_action'].include?(a) || ['resource_action_fqname'].include?(a) })
@@ -98,6 +113,7 @@ class ServiceDialogImportExport
 
   def export_dialogs(dialogs)
     dialogs.map do |dialog|
+      puts "Dialog: [#{dialog.label}]"
       dialog_tabs = export_dialog_tabs(dialog.dialog_tabs)
 
       included_attributes(dialog.attributes, ["created_at", "id", "updated_at"]).merge("dialog_tabs" => dialog_tabs)
@@ -120,6 +136,15 @@ class ServiceDialogImportExport
         field_attributes["resource_action"]["ae_instance"] = dialog_field.resource_action.ae_instance
         field_attributes["resource_action"]["ae_message"] = dialog_field.resource_action.ae_message
         field_attributes["resource_action"]["ae_attributes"] = dialog_field.resource_action.ae_attributes
+      end
+      # Export category_description for tag fields
+      if dialog_field.instance_of? DialogFieldTagControl
+        category_id = dialog_field[:options][:category_id]
+        c = Classification.where(:id=>category_id, :parent_id=>0).first()
+        if c.nil?
+          raise "Classification with id '#{category_id}' not found for field '#{dialog_field[:name]}'"
+        end
+        dialog_field[:options][:category_description] = c[:description]
       end
       field_attributes
     end
