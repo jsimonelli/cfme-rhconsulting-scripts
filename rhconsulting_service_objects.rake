@@ -92,6 +92,7 @@ class ServiceObjectImportExport
       vm_hash = {}
       vm_hash['ems_ref'] = vm.ems_ref
       vm_hash['name'] = vm.name
+      vm_hash['provider_hostname'] = vm.ext_management_system.hostname
       vm_hash
     end
   end
@@ -177,7 +178,8 @@ class ServiceObjectImportExport
   def find_vms(svc)
     svc.fetch('vms', []).map {|vm|
       #puts "Searching for VM #{vm}"
-      MiqAeMethodService::MiqAeServiceVm.where(ems_ref: vm['ems_ref']).first()
+      duplicates = MiqAeMethodService::MiqAeServiceVm.where(ems_ref: vm['ems_ref'])
+      duplicates.select{|v| v.ext_management_system.hostname == vm['provider_hostname'] }.first()
     }
   end
   def assign_tags(new_svc, svc)
