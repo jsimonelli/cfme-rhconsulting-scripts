@@ -56,12 +56,12 @@ class ServiceObjectImportExport
       obj['custom_attributes'] = overwrite_custom_atribute(obj['custom_attributes'], {'name'=>'custom_1', 'value' => custom_label}) unless custom_label.blank?
 
       # rename service_catalog
-      obj['custom_attributes'] = overwrite_custom_atribute(obj['custom_attributes'], {'name'=>'Catalog Item', 'value' => 'Loadbalancer - New Instance'}, :add_missing)           if obj['service_template']['name'] == 'Create Loadbalancer vHost'
-      obj['custom_attributes'] = overwrite_custom_atribute(obj['custom_attributes'], {'name'=>'Catalog Item', 'value' => 'MSSQL Database Instance (managed)'}, :add_missing)     if obj['service_template']['name'] == 'MSSQL Database'
-      obj['custom_attributes'] = overwrite_custom_atribute(obj['custom_attributes'], {'name'=>'Catalog Item', 'value' => 'SSL Certificate'}, :add_missing)                       if obj['service_template']['name'] == 'New Certificate'
-      obj['custom_attributes'] = overwrite_custom_atribute(obj['custom_attributes'], {'name'=>'Catalog Item', 'value' => 'VM Linux (managed) - standard options'}, :add_missing) if obj['service_template']['name'] == 'VM Linux (managed)'
-      obj['custom_attributes'] = overwrite_custom_atribute(obj['custom_attributes'], {'name'=>'Catalog Item', 'value' => 'VM Windows Server 2012 (managed)'}, :add_missing)      if obj['service_template']['name'] == 'VM Windows (managed)'
-      obj['custom_attributes'] = overwrite_custom_atribute(obj['custom_attributes'], {'name'=>'Catalog Item', 'value' => 'VM Linux Openshift Node'}, :add_missing)               if obj['service_template']['name'] == 'OpenShift ready RHEL7 VM'
+      obj['custom_attributes'] = overwrite_custom_atribute(obj['custom_attributes'], {'name'=>'Catalog Item', 'value' => 'Loadbalancer - New Instance'}, :add_missing)           if obj['service_template'].try(:[], 'name') == 'Create Loadbalancer vHost'
+      obj['custom_attributes'] = overwrite_custom_atribute(obj['custom_attributes'], {'name'=>'Catalog Item', 'value' => 'MSSQL Database Instance (managed)'}, :add_missing)     if obj['service_template'].try(:[], 'name') == 'MSSQL Database'
+      obj['custom_attributes'] = overwrite_custom_atribute(obj['custom_attributes'], {'name'=>'Catalog Item', 'value' => 'SSL Certificate'}, :add_missing)                       if obj['service_template'].try(:[], 'name') == 'New Certificate'
+      obj['custom_attributes'] = overwrite_custom_atribute(obj['custom_attributes'], {'name'=>'Catalog Item', 'value' => 'VM Linux (managed) - standard options'}, :add_missing) if obj['service_template'].try(:[], 'name') == 'VM Linux (managed)'
+      obj['custom_attributes'] = overwrite_custom_atribute(obj['custom_attributes'], {'name'=>'Catalog Item', 'value' => 'VM Windows Server 2012 (managed)'}, :add_missing)      if obj['service_template'].try(:[], 'name') == 'VM Windows (managed)'
+      obj['custom_attributes'] = overwrite_custom_atribute(obj['custom_attributes'], {'name'=>'Catalog Item', 'value' => 'VM Linux Openshift Node'}, :add_missing)               if obj['service_template'].try(:[], 'name') == 'OpenShift ready RHEL7 VM'
 
       obj
     end
