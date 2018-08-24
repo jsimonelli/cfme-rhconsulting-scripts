@@ -50,11 +50,6 @@ class ServiceObjectImportExport
       # Set the Service ID as custom Aggribute
       obj['custom_attributes'] = overwrite_custom_atribute(obj['custom_attributes'], {'name'=>'Import ID:', 'value' => svc.id.to_s}, :add_missing)
 
-      # set custom_1 to "<name> (Owned by <RequesterDepartment>)"
-      cust_attr_req_department = obj['custom_attributes'].select { |attr| attr['name'] == 'Requester Department:' }.first()
-      custom_label = "#{svc['name']} (Owned by department: #{cust_attr_req_department.fetch('value', 'Not found!')})" unless cust_attr_req_department.blank?
-      obj['custom_attributes'] = overwrite_custom_atribute(obj['custom_attributes'], {'name'=>'custom_1', 'value' => custom_label}) unless custom_label.blank?
-
       # rename service_catalog
       obj['custom_attributes'] = overwrite_custom_atribute(obj['custom_attributes'], {'name'=>'Catalog Item', 'value' => 'Loadbalancer - New Instance'}, :add_missing)           if obj['service_template'].try(:[], 'name') == 'Create Loadbalancer vHost'
       obj['custom_attributes'] = overwrite_custom_atribute(obj['custom_attributes'], {'name'=>'Catalog Item', 'value' => 'MSSQL Database Instance (managed)'}, :add_missing)     if obj['service_template'].try(:[], 'name') == 'MSSQL Database'
