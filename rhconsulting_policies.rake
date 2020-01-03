@@ -1,5 +1,5 @@
 # Author: Brant Evans <bevans@redhat.com>
-require_relative 'rhconsulting_illegal_chars'
+#require_relative 'rhconsulting_illegal_chars'
 require_relative 'rhconsulting_options'
 
 class MiqPoliciesImportExport
@@ -29,22 +29,17 @@ private
 
   def export_policies(export_dir, options)
     MiqPolicy.all.each do |p|
-      puts("Exporting Policy: #{p.description}")
-
-      # Replace invalid filename characters
-      pname = MiqIllegalChars.replace(p.description, options)
-      fname = "Policy_#{pname}.yaml"
+      puts("Exporting Policy: #{p.description} with guid #{p.guid}")
+      fname = "Policy_#{p.guid}.yaml"
       File.write("#{export_dir}/#{fname}", p.export_to_yaml)
     end
   end
 
   def export_profiles(export_dir, options)
     MiqPolicySet.all.each do |p|
-      puts("Exporting Policy Profile: #{p.description}")
+      puts("Exporting Policy Profile: #{p.description} with guid #{p.guid}")
 
-      # Replace invalid filename characters
-      pname = MiqIllegalChars.replace(p.description, options)
-      fname = "Profile_#{pname}.yaml"
+      fname = "Profile_#{p.guid}.yaml"
       File.write("#{export_dir}/#{fname}", p.export_to_yaml)
     end
   end

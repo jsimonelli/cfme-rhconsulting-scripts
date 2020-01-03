@@ -1,5 +1,5 @@
 # Author: A Liu Ly <alejandrol@t-systems.com>
-require_relative 'rhconsulting_illegal_chars'
+#require_relative 'rhconsulting_illegal_chars'
 require_relative 'rhconsulting_options'
 
 class MiqScanItemsImportExport
@@ -40,11 +40,9 @@ private
       end
 
       
-      puts("Exporting Scan Profile: #{p.name} (#{p.description})")
+      puts("Exporting Scan Profile: #{p.name} (#{p.description}) (#{p.guid})")
 
-      # Replace invalid filename characters
-      pname = MiqIllegalChars.replace(p.name, options)
-      fname = "ScanProfile_#{pname}.yaml"
+      fname = "ScanProfile_#{p.guid}.yaml"
 
       # Clean-up data
       profile = ScanItem.get_profile(p.name).first.dup

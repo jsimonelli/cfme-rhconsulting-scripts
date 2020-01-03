@@ -10,8 +10,8 @@ class ServiceDialogImportExport
     dialogs_hash.each { |x|
       data = []
       data << x
-      # Replace invalid filename characters
-      fname = MiqIllegalChars.replace(x['label'], options)
+
+      fname = x['id']
       File.write("#{filedir}/#{fname}.yml", data.to_yaml)
     }
   end
@@ -135,7 +135,7 @@ class ServiceDialogImportExport
     dialogs.map do |dialog|
       dialog_tabs = export_dialog_tabs(dialog.dialog_tabs)
 
-      included_attributes(dialog.attributes, ["created_at", "id", "updated_at"]).merge("dialog_tabs" => dialog_tabs)
+      included_attributes(dialog.attributes, ["created_at", "updated_at"]).merge("dialog_tabs" => dialog_tabs)
     end
   end
 

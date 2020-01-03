@@ -1,5 +1,5 @@
 # Author: Dustin Scott <dscott@redhat.com>
-require_relative 'rhconsulting_illegal_chars'
+#require_relative 'rhconsulting_illegal_chars'
 require_relative 'rhconsulting_options'
 require_relative 'rhconsulting_model_attributes'
 
@@ -133,7 +133,7 @@ private
       normalized_attrs = normalize_export_data(schedule.attributes)
 
       # set the filename and replace spaces and characters that are not allowed in filenames
-      fname = MiqIllegalChars.replace("#{schedule.name}.yaml", options)
+      fname = "#{schedule.id}.yaml"
       File.write("#{export_dir}/#{fname}", normalized_attrs.to_yaml)
     end
   end

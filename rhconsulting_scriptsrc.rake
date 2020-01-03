@@ -44,8 +44,8 @@ private
 
   def export_repo_items(export_dir, options)
     ManageIQ::Providers::EmbeddedAnsible::AutomationManager::ConfigurationScriptSource.all.each do |src|
-      # Replace invalid filename characters
-      pname = MiqIllegalChars.replace(src.name, options)
+
+      pname = src['id']
       fname = "#{pname}.yaml"
       puts("Export: #{src.name} to #{fname}")
       repo = extract_scrsrc(src)

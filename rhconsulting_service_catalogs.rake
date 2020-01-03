@@ -44,8 +44,8 @@ class ServiceCatalogsImportExport
       }
       data = []
       data << output
-      # Replace invalid filename characters
-      fname = MiqIllegalChars.replace(output["#{catalog_name}"]['name'], options)
+
+      fname = catalog['id']
       File.write("#{filedir}/#{fname}.yml", data.to_yaml)
     }
   end
@@ -275,7 +275,7 @@ private
 
   def export_service_template_catalogs(catalogs)
     catalogs.collect { |catalog| 
-      attributes = catalog.attributes.slice('name', 'description', 'tenant_id')
+      attributes = catalog.attributes.slice('id', 'name', 'description', 'tenant_id')
       tenant_name = Tenant.find_by_id(attributes['tenant_id']).name
       attributes.delete('tenant_id')
       attributes.merge!({"tenant_name" => tenant_name})

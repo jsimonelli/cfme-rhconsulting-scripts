@@ -1,3 +1,4 @@
+# This class and method is not used that much. Search for this class in all the files to have a greater look. ###
 # @class MiqIllegalChars
 # @brief Common place for illegal character replacement regexes and functions.
 # Previously regexes for illegal character replacement were spread throughout
@@ -6,10 +7,10 @@
 class MiqIllegalChars
 
   # Illegal characters: '/', '|'
-  @@regex_keep_spaces   = %r{[/|]}
+  @@regex_keep_spaces   = /[^-a-z0-9\s]+/i
   
   # Illegal characters: '/', '|', ' '
-  @@regex_remove_spaces = %r{[/| ]}
+  @@regex_remove_spaces = /[^-a-z0-9]+/i
 
   # Replacement character
   @@replacement         = '_'
@@ -23,7 +24,7 @@ class MiqIllegalChars
   # \p str , otherwise replace spaces. (default = false, replace spaces)
   def self.replace(str, options = {})
     if options.has_key?(:keep_spaces) && options[:keep_spaces] == true
-      return str.gsub(@@regex_keep_spaces, @@replacement)
+      return str.gsub(@@regex_keep_spaces, @@replacement).squeeze(" ")
     else
       return str.gsub(@@regex_remove_spaces, @@replacement)
     end

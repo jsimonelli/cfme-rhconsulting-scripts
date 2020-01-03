@@ -24,8 +24,8 @@ class ButtonsImportExport
       # If we get an error back assume it is a filename that does not exist
       file_type = 'file'
     end
-
-    custom_buttons_sets_hash = export_custom_button_sets(CustomButtonSet.in_region(MiqRegion.my_region_number).order(:id).all)
+    custom_button_sets = CustomButtonSet.in_region(MiqRegion.my_region_number).order(:id).all
+    custom_buttons_sets_hash = export_custom_button_sets(custom_button_sets)
     custom_button_find = CustomButton.in_region(MiqRegion.my_region_number).order(:id).all
     bf_array = []
     custom_button_find.each do |bf|
@@ -44,9 +44,9 @@ class ButtonsImportExport
     if file_type == 'file'
       File.write(filename, {:custom_buttons_sets => custom_buttons_sets_hash}.to_yaml)
     elsif file_type == 'directory'
+      # Replace characters in the name that are not allowed in filenames
       custom_buttons_sets_hash.each do |cbs|
-        # Replace characters in the name that are not allowed in filenames
-        name = MiqIllegalChars.replace("#{cbs["name"]}", options)
+        name = MiqIllegalChars.replace("#{cbs["id"]}", options)
         fname = "#{filename}/#{name}.yaml"
         File.write(fname, {:custom_buttons_sets => [cbs]}.to_yaml)
       end
@@ -220,7 +220,7 @@ class ButtonsImportExport
   def export_custom_button_sets(custom_button_sets)
     custom_button_sets.collect do |custom_button_set|
       attributes = custom_button_set.attributes.slice(
-          'name', 'description', 'set_type', 'read_only', 'mode')
+          'id','name', 'description', 'set_type', 'read_only', 'mode')
       attributes['custom_buttons'] = export_custom_buttons(custom_button_set.custom_buttons).sort_by { |button| button['name']}
       attributes['set_data'] = export_custom_button_set_data(custom_button_set.set_data)
       attributes

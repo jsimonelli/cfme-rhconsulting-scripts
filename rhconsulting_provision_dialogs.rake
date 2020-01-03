@@ -1,6 +1,6 @@
 # Heavily based on a rails script written by Dustin Scott <dscott@redhat.com>
 # Author: Brant Evans <bevans@redhat.com>
-require_relative 'rhconsulting_illegal_chars'
+#require_relative 'rhconsulting_illegal_chars'
 require_relative 'rhconsulting_options'
 
 class ProvisionDialogImportExport
@@ -19,7 +19,7 @@ class ProvisionDialogImportExport
     # Save provision dialogs
     dialog_array.each do |dialog|
       # Set the filename and replace characters that are not allowed in filenames
-      fname = MiqIllegalChars.replace("#{dialog[:name]}.yaml", options)
+      fname = "#{dialog[:guid]}.yaml"
       File.write("#{filedir}/#{fname}", dialog.to_yaml)
     end
   end

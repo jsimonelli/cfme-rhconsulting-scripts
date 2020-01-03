@@ -26,7 +26,7 @@ private
     custom_widgets.each { |widget|
 
       # Set the filename and replace spaces and characters that are not allowed in filenames
-      fname = MiqIllegalChars.replace("#{widget.id}_#{widget.name}.yaml", options)
+      fname = "#{widget.id}.yaml"
 
       File.write("#{export_dir}/#{fname}", widget.export_to_array.to_yaml)
     }

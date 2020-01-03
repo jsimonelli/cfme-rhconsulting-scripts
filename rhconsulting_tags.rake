@@ -1,4 +1,3 @@
-require_relative 'rhconsulting_illegal_chars'
 require_relative 'rhconsulting_options'
 
 class TagImportExport
@@ -44,12 +43,9 @@ class TagImportExport
         #   the classification does not show in the Web UI
         next if SPECIAL_TAGS.include?(category.name)
 
-        # Get the description to use in the filename
-        description = "#{category.description}"
-
-        # Replace invalid filename characters
-        description = MiqIllegalChars.replace(description, options)
-        fname = "#{filename}/#{description}.yaml"
+        # Get the guid to use in the filename
+        id = "#{category.id}"
+        fname = "#{filename}/#{id}.yaml"
 
         File.write(fname, category.export_to_yaml)
       end

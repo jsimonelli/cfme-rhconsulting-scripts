@@ -34,10 +34,8 @@ class RoleImportExport
       File.write(filename, roles_array.to_yaml)
     elsif file_type == 'directory'
       roles_array.each do |role_hash|
-        role_name = role_hash["name"]
-        # Replace invalid filename characters
-        role_name = MiqIllegalChars.replace(role_name, options)
-        fname = "#{filename}/#{role_name}.yaml"
+        role_id = role_hash["id"]
+        fname = "#{filename}/#{role_id}.yaml"
         File.write(fname, [role_hash].to_yaml)
       end
     else
@@ -64,7 +62,7 @@ private
   def export_roles(roles)
     roles.collect do |role|
       next if role.read_only?
-      included_attributes(role.attributes, ["created_at", "id", "updated_at"]).merge('feature_identifiers' => role.feature_identifiers.sort)
+      included_attributes(role.attributes, ["created_at", "updated_at"]).merge('feature_identifiers' => role.feature_identifiers.sort)
     end.compact
   end
 

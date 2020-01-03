@@ -1,5 +1,5 @@
 # Author: George Goh <george.goh@redhat.com>
-require_relative 'rhconsulting_illegal_chars'
+#require_relative 'rhconsulting_illegal_chars'
 require_relative 'rhconsulting_options'
 
 class MiqReportImportExport
@@ -24,9 +24,7 @@ class MiqReportImportExport
     raise "Must supply export dir" if export_dir.blank?
     custom_reports = MiqReport.where(:rpt_type => "Custom")
     custom_reports.each { |report|
-      # Replace invalid filename characters
-      name = MiqIllegalChars.replace(report.name, options)
-      fname = "#{report.id}_#{name}.yaml"
+      fname = "#{report.id}.yaml"
       File.write("#{export_dir}/#{fname}", report.export_to_array.to_yaml)
     }
   end

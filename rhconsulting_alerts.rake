@@ -1,5 +1,5 @@
 # Author: Brant Evans <bevans@redhat.com>
-require_relative 'rhconsulting_illegal_chars'
+#require_relative 'rhconsulting_illegal_chars'
 require_relative 'rhconsulting_options'
 
 class MiqAlertsImportExport
@@ -53,18 +53,15 @@ class MiqAlertsImportExport
 
   def export_alerts(export_dir, options)
     MiqAlert.order(:id).all.each do |a|
-      # Replace characters in the description that are not allowed in filenames
-      fname = MiqIllegalChars.replace(a.description, options)
+      fname = a.guid
       File.write("#{export_dir}/#{fname}.yaml", a.export_to_yaml)
     end
   end
 
   def export_alert_sets(export_dir, options)
     MiqAlertSet.order(:id).all.each do |a|
-      puts("Exporting Alert Set: #{a.description}")
-
-      # Replace characters in the description that are not allowed in filenames
-      fname = MiqIllegalChars.replace(a.description, options)
+      puts("Exporting Alert Set: #{a.description} with guid #{a.guid}")
+      fname = a.guid
       File.write("#{export_dir}/#{fname}.yaml", a.export_to_yaml)
     end
   end
